@@ -1,83 +1,86 @@
 <!DOCTYPE html>
-<html lang="pl-PL">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Obecność baza</title>
+    <title>Document</title>
 </head>
 <body>
-    <header>
-        <h1>
-            Dodawanie obecności
-        </h1>
-    </header>
-    <section>
-    <?php
-            $polaczenie=mysqli_connect('localhost','root','','4tie');
-            if ($polaczenie) 
-               {
-                echo "Połączyliśmy się z bazą danych";
-                $zapytanie="SELECT * FROM dane";
-                $wynik=mysqli_query($polaczenie,$zapytanie);
-                while($wiersz=mysqli_fetch_array($wynik)){
-                    $imie[]= $wiersz['imie'];
-                    $nazwisko[]= $wiersz['nazwisko'];
-                    $iddane[]=$wiersz['id'];
-                }
-                echo "<br>";
-                if($_SERVER["REQUEST_METHOD"]=="POST"){
-                    $data=$_POST['data'];
-                    $data_kon=$_POST['data_kon'];
-                    $czyObecny=0;
-                    for ($x=0;$x<count($imie);$x++){
-                        if(isset($_POST["osoba$iddane[$x]"])){
-                            $idosoba[$x]=$_POST["osoba$iddane[$x]"];
-                            $czyObecny=1;
-
-                        }
-                        $insert="INSERT INTO obecnosc VALUES(null, '$data','$iddane[$x]','$czyObecny','$data_kon')";
-                        if(mysqli_query($polaczenie,$insert)){
-                            echo "Dodano do bazy";
-                        }
-                        else{
-                            echo "Bład";
-                        }
-                        $czyObecny=0;
-                    }                   
-
-                }
-            
-            }
-            mysqli_close($polaczenie);
-
-        ?>
-        <h2>Lista obecności</h2>
-        <form method="POST">
-        <ol>
-        <?php
-                for ($x=0;$x<count($imie);$x++){
-                    echo "
-                    <li>
-                        <input type='checkbox' value=$iddane[$x] id='osoba$iddane[$x]' name='osoba$iddane[$x]'>
-                        <label for='osoba$iddane[$x]'>$imie[$x] $nazwisko[$x]</label>
-                    </li>
-                    ";
-                }
-                    
-                ?>
-        </ol>
-        <br>
-        <label for="data">podaj date rozpoczecia praktyk </label>
-        <input type="date" name="data" id="data">
-        <br>
-        <br>
-        <label for="data_kon">podaj date zakonczenia praktyk </label>
-        <input type="date" name="data_kon" id="datakon">
-        <br>
-        <input type="submit" value="Zapisz dane">
-        </form>
-    </section>
-    <footer>Stronę wykonał Przemek</footer>
+    
 </body>
+</html>
+
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8">
+        <title>Forum o psach</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+
+
+    <body>
+        <section id="baner">
+            <h1>Forum wielbicieli psów</h1>
+        </section>
+
+        <section id="blok_lewy">
+            <img src="piesek.png" alt="foksterier" width="323" height="500">
+        </section>
+
+        <section id="blok_prawy_gora">
+            <h2>Zapisz się</h2>
+            <form action="" method="post">
+                <label for="login">login: </label>
+                <input type="text" id="login" name="login"><br>
+                <label for="haslo">hasło: </label>
+                <input type="password" id="haslo" name="haslo"><br>
+                <label for="powtorz_haslo">powtórz hasło: </label>
+                <input type="password" id="powtorz_haslo" name="powtorz_haslo"><br>
+                <input type="submit" value="Zapisz">
+            </form>
+
+            <?php
+
+            if($_SERVER["REQUEST_METHOD"]==="POST"){
+                $pol = mysqli_connect("localhost","root","","psy");
+
+                    $login = $_POST['login'];
+                    $haslo = $_POST['haslo'];
+                    $haslo2 = $_POST['haslo2'];
+
+                    if($login!="" && $haslo!="" && $haslo2!=""){
+                        echo '<p>wypełnij wszystkie pola</a>'
+                        
+                        query
+                    
+                    }else{
+
+                    }
+
+                mysqli_close($pol);
+            }
+
+
+
+
+            ?>
+
+        </section>
+
+        <section id="blok_prawy_dol">
+            <h2>Zapraszamy wszystkich</h2>
+            <ol>
+                <li>właścicieli psów</li>
+                <li>weterynarzy</li>
+                <li>tych, co chcą kupić psa</li>
+                <li>tych, co lubią psy</li>
+            </ol>
+            <a href="regulamin.html">Przeczytaj regulamin forum</a>
+        </section>
+
+        <footer>
+            <p>Stronę wykonał:s3rbr</p>
+        </footer>
+    </body>
 </html>
