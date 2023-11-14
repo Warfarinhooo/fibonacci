@@ -1,16 +1,33 @@
-function Oblicz(){
-let wyraz=document.getElementById("wyraz").value;
-wynik=fibonacci(wyraz);
-let wynik;
+<?php
+$pol = mysqli_connect("localhost","root","","psy");
 
-document.getElementById("wynik").value=wynik;
-}
-function fibonacci(nrWyrazu){
-let wynik=0;
-if(nrWyrazu<=2){
-    wynik=1;
-    }else{
-    wynik=fibonacci(nrWyrazu-1)+fibonacci(nrWyrazu-2);
-}
-return wynik;
+$q = "SELECT * from uzytkownicy where 1";
+
+$wynik = mysqli_query($pol,$q);
+
+if($wynik and mysqli_num_rows($wynik)>0){
+    echo "Zapytanie zwróciło:" .mysqli_num_rows($wynik)."wierszy</br>";
+
+
+    //$row = mysqli_fetch_row($wynik);
+
+    //print_r($row);
+    /*$array = mysqli_fetch_array($wynik);
+    print_r($array);
+
+    echo $array[0];
+    echo $array["id"];*/
+    //$assoc = mysqli_fetch_assoc($wynik);
+
+    //print_r($assoc);
+
+while($row = mysqli_fetch_assoc($wynik)){
+   // print_r($row)."</br>";
+
+   echo $row['login'];
+    
+    if($row['login']=='Grzegorz'){
+        echo "spotkalem login Marcin";
+        break;
+    }
 }
