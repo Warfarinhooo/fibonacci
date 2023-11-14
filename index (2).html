@@ -35,8 +35,8 @@
                 <input type="text" id="login" name="login"><br>
                 <label for="haslo">hasło: </label>
                 <input type="password" id="haslo" name="haslo"><br>
-                <label for="powtorz_haslo">powtórz hasło: </label>
-                <input type="password" id="powtorz_haslo" name="powtorz_haslo"><br>
+                <label for="haslo2">powtórz hasło: </label>
+                <input type="password" id="haslo2" name="haslo2"><br>
                 <input type="submit" value="Zapisz">
             </form>
 
@@ -45,17 +45,15 @@
             if($_SERVER["REQUEST_METHOD"]==="POST"){
                 $pol = mysqli_connect("localhost","root","","psy");
 
-                    $login = $_POST['login'];
-                    $haslo = $_POST['haslo'];
-                    $haslo2 = $_POST['haslo2'];
+                    $login = mysqli_real_escape_string($pol,$_POST['login']);
+                    $haslo = mysqli_real_escape_string($pol,$_POST['haslo']);
+                    $haslo2 = mysqli_real_escape_string($pol,$_POST['haslo2']);
 
-                    if($login!="" && $haslo!="" && $haslo2!=""){
-                        echo '<p>wypełnij wszystkie pola</a>'
-                        
-                        query
+                    if($login!='' && $haslo!='' && $haslo2!=''){
+                        echo '<p>pola wypełnione</p>';
                     
                     }else{
-
+                        echo '<p>Wypełnij wszystkie pola</p>';
                     }
 
                 mysqli_close($pol);
@@ -80,7 +78,7 @@
         </section>
 
         <footer>
-            <p>Stronę wykonał:s3rbr</p>
+            <p>Stronę wykonał:Kluk</p>
         </footer>
     </body>
 </html>
