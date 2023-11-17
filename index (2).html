@@ -1,35 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+	<meta charset="UTF-8" />
+	<title>Forum o psach</title>
+	<link rel="stylesheet" href="styl.css" />
 </head>
 <body>
-    
-</body>
-</html>
-
-<html lang="pl">
-    <head>
-        <meta charset="UTF-8">
-        <title>Forum o psach</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-
-
-
-    <body>
-        <section id="baner">
-            <h1>Forum wielbicieli psów</h1>
-        </section>
-
-        <section id="blok_lewy">
-            <img src="piesek.png" alt="foksterier" width="323" height="500">
-        </section>
-
-        <section id="blok_prawy_gora">
-            <h2>Zapisz się</h2>
+	<div id="baner">
+		<h1>Forum wielbicieli psów</h1>
+	</div>
+	<div id="lewy">
+		<img src="piesek.png" alt="piesek" />
+	</div>
+	<div id="prawy1">
+		<h2>Zapisz się</h2>
             <form action="" method="post">
                 <label for="login">login: </label>
                 <input type="text" id="login" name="login"><br>
@@ -39,46 +23,65 @@
                 <input type="password" id="haslo2" name="haslo2"><br>
                 <input type="submit" value="Zapisz">
             </form>
+			<?php
 
-            <?php
+if($_SERVER["REQUEST_METHOD"]==="POST"){
+	$polaczenie = mysqli_connect("localhost","root","","psy");
 
-            if($_SERVER["REQUEST_METHOD"]==="POST"){
-                $pol = mysqli_connect("localhost","root","","psy");
+		$login = mysqli_real_escape_string($polaczenie,$_POST['login']);
+		$haslo = mysqli_real_escape_string($polaczenie,$_POST['haslo']);
+		$haslo2 = mysqli_real_escape_string($polaczenie,$_POST['haslo2']);
 
-                    $login = mysqli_real_escape_string($pol,$_POST['login']);
-                    $haslo = mysqli_real_escape_string($pol,$_POST['haslo']);
-                    $haslo2 = mysqli_real_escape_string($pol,$_POST['haslo2']);
+		$loginWystepujeWBazie = false;
 
-                    if($login!='' && $haslo!='' && $haslo2!=''){
-                        echo '<p>pola wypełnione</p>';
-                    
-                    }else{
-                        echo '<p>Wypełnij wszystkie pola</p>';
-                    }
+	if($login !="" && $haslo !="" && $haslo2 !=""){
+		$query = "SELECT login FROM uzytkownicy;";
+		$wynik = mysqli_query($polaczenie,$query);
+		if($wynik && mysqli_num_rows($wynik)>0){
+			while($tab=mysqli_fetch_row($wynik)){
+				if($login == $tab[0]){
+					$loginWystepujeWBazie = true;
+					break;
+				}
+			}
+		}
+		if($loginWystepujeWBazie){
+			echo '<p>login występuje w bazie, konto nie zostało dodane!</p>';
+		}else{
+			if($haslo===$haslo2){
+				$szyfr = sha1($haslo);
+				$ddb = "INSERT INTO uzytkownicy VALUES (NULL, '$login', '$szyfr');";
+				mysqli_query($polaczenie, $ddb);
+				if($wynik && mysqli_affected_rows($polaczenie)==1){
+					echo '<p>konto zostało dodane</p>';
 
-                mysqli_close($pol);
-            }
+				}else{
+					echo '<p>konto nie zostało dodane</p>';
+				}
+			}else{
+				echo '<p>hasła nie są takie same</p>';
+			}
+		}
+	}else{
+		echo '<p>Wypełnij wszystkie pola!</p>';
+	}
 
-
-
-
-            ?>
-
-        </section>
-
-        <section id="blok_prawy_dol">
-            <h2>Zapraszamy wszystkich</h2>
-            <ol>
-                <li>właścicieli psów</li>
-                <li>weterynarzy</li>
-                <li>tych, co chcą kupić psa</li>
-                <li>tych, co lubią psy</li>
-            </ol>
-            <a href="regulamin.html">Przeczytaj regulamin forum</a>
-        </section>
-
-        <footer>
-            <p>Stronę wykonał:Kluk</p>
-        </footer>
-    </body>
+mysqli_close($polaczenie);
+}
+?>
+	</div>
+	<div id="prawy2">
+		<h2>Zapraszamy wszystkich</h2>
+		<ol>
+			<li>właścicieli psów</li>
+			<li>weterynarzy</li>
+			<li>tych, co chcą kupić psa</li>
+			<li>tych, co lubią psy</li>
+		</ol>
+		<a href="regulamin.html">Przeczytaj regulamin forum</a>
+	</div>
+	<div id="stopka">
+		Stronę wykonał: Kluk Fabian
+	</div>
+</body>
 </html>
