@@ -42,6 +42,7 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
 			// jeśli wynik zapytania i liczba wierszy jest większa od 0
 			while($tab=mysqli_fetch_row($wynik)){
 				if($login == $tab[0]){
+                    //sprawdza dopóki login nie będzie taki sam jak tab
 					$loginWystepujeWBazie = true;
 					break;
 				}
@@ -85,7 +86,8 @@ mysqli_close($polaczenie);
 		<a href="regulamin.html">Przeczytaj regulamin forum</a>
 	</div>
 	<div id="stopka">
-		Stronę wykonał: Kluk Fabian
+		Stronę wykonał: Kluk Fabian 
 	</div>
 </body>
 </html>
+
