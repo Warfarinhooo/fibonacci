@@ -31,6 +31,7 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
 		$login = mysqli_real_escape_string($polaczenie,$_POST['login']);
 		$haslo = mysqli_real_escape_string($polaczenie,$_POST['haslo']);
 		$haslo2 = mysqli_real_escape_string($polaczenie,$_POST['haslo2']);
+		//mysqli_real_escape_string zabezpieczenie danych
 
 		$loginWystepujeWBazie = false;
 
@@ -38,6 +39,7 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
 		$query = "SELECT login FROM uzytkownicy;";
 		$wynik = mysqli_query($polaczenie,$query);
 		if($wynik && mysqli_num_rows($wynik)>0){
+			// jeśli wynik zapytania i liczba wierszy jest większa od 0
 			while($tab=mysqli_fetch_row($wynik)){
 				if($login == $tab[0]){
 					$loginWystepujeWBazie = true;
@@ -51,8 +53,10 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
 			if($haslo===$haslo2){
 				$szyfr = sha1($haslo);
 				$ddb = "INSERT INTO uzytkownicy VALUES (NULL, '$login', '$szyfr');";
+				//ddb = dodanie do bazy
 				mysqli_query($polaczenie, $ddb);
-				if($wynik && mysqli_affected_rows($polaczenie)==1){
+				if(mysqli_affected_rows($polaczenie)==1){
+					//ilość wierszy które zostały dotknięte zapytaniem
 					echo '<p>konto zostało dodane</p>';
 
 				}else{
